@@ -107,4 +107,15 @@ defmodule ParserTest do
     assert AnalyticTableaux.Parser.parse("|- a ⊃ b") == [{:implies, :a, :b}]
   end
 
+  test "alternative symbols for IFF" do
+    assert AnalyticTableaux.Parser.parse("|- a IFF b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a <-> b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a <> b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a ↔ b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a ⇔ b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a ≡ b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a EQV b") == [{:iff, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a XNOR b") == [{:iff, :a, :b}]
+  end
+
 end
