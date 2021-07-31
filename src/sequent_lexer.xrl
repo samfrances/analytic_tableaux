@@ -2,10 +2,11 @@ Definitions.
 
 ATOM       = [a-z]
 WHITESPACE = [\s\t\n\r]
-IMPLIES    = (\-\>|IMPLIES|\>|→|⊃)
 TURNSTILE  = \|\-
 OR         = (\||OR|\+|V|∨)
 AND        = (\&|AND|\.|\^|∧)
+IMPLIES    = (\-\>|IMPLIES|\>|→|⊃)
+IFF        = \=
 NOT        = (\~|NOT|\¬|\-|\'|\!)
 
 Rules.
@@ -19,6 +20,7 @@ Rules.
 {OR}          : {token, {binary, TokenLine, 'or'}}.
 {AND}         : {token, {binary, TokenLine, 'and'}}.
 {IMPLIES}     : {token, {binary, TokenLine, 'implies'}}.
+{IFF}         : {token, {binary, TokenLine, 'iff'}}.
 {WHITESPACE}+ : skip_token.
 
 Erlang code.

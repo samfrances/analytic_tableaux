@@ -31,8 +31,11 @@ defmodule ParserTest do
   test "should parse binary formulas with atomic children" do
     assert AnalyticTableaux.Parser.parse("|- (p & q)") == [{:and, :p, :q}]
     assert AnalyticTableaux.Parser.parse("|- (p | q)") == [{:or, :p, :q}]
+    assert AnalyticTableaux.Parser.parse("|- (p -> q)") == [{:implies, :p, :q}]
+    assert AnalyticTableaux.Parser.parse("|- (p = q)") == [{:iff, :p, :q}]
     assert AnalyticTableaux.Parser.parse("(a&b), (b&c),b|- (p & q)") == [{:and, :a, :b}, {:and, :b, :c}, :b, {:and, :p, :q}]
     assert AnalyticTableaux.Parser.parse("(a&b), (b|c),b|- (p -> q)") == [{:and, :a, :b}, {:or, :b, :c}, :b, {:implies, :p, :q}]
+    assert AnalyticTableaux.Parser.parse("(a&b), (b=c),b|- (p -> q)") == [{:and, :a, :b}, {:iff, :b, :c}, :b, {:implies, :p, :q}]
   end
 
   test "should parse binary formulas with complex binary children" do
