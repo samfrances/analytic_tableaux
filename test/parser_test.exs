@@ -75,4 +75,33 @@ defmodule ParserTest do
     assert AnalyticTableaux.Parser.parse("a&~b, b|(c&d),b|- p & q") == [{:and, :a, {:not, :b}}, {:or, :b, {:and, :c, :d}}, :b, {:and, :p, :q}]
   end
 
+  test "alternative symbols for AND" do
+    assert AnalyticTableaux.Parser.parse("|- a AND b") == [{:and, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a.b") == [{:and, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a^b") == [{:and, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a∧b") == [{:and, :a, :b}]
+  end
+
+  test "alternative symbols for OR" do
+    assert AnalyticTableaux.Parser.parse("|- a OR b") == [{:or, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a+b") == [{:or, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- aVb") == [{:or, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a∨b") == [{:or, :a, :b}]
+  end
+
+  test "alternative symbols for NOT" do
+    assert AnalyticTableaux.Parser.parse("|- NOT a") == [{:not, :a}]
+    assert AnalyticTableaux.Parser.parse("|- ¬a") == [{:not, :a}]
+    assert AnalyticTableaux.Parser.parse("|- -a") == [{:not, :a}]
+    assert AnalyticTableaux.Parser.parse("|- 'a") == [{:not, :a}]
+    assert AnalyticTableaux.Parser.parse("|- !a") == [{:not, :a}]
+  end
+
+  test "alternative symbols for IMPLIES" do
+    assert AnalyticTableaux.Parser.parse("|- a IMPLIES b") == [{:implies, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a > b") == [{:implies, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a → b") == [{:implies, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a ⊃ b") == [{:implies, :a, :b}]
+  end
+
 end
