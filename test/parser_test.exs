@@ -87,6 +87,7 @@ defmodule ParserTest do
     assert AnalyticTableaux.Parser.parse("|- a+b") == [{:or, :a, :b}]
     assert AnalyticTableaux.Parser.parse("|- aVb") == [{:or, :a, :b}]
     assert AnalyticTableaux.Parser.parse("|- a∨b") == [{:or, :a, :b}]
+    assert AnalyticTableaux.Parser.parse("|- a*b") == [{:or, :a, :b}]
   end
 
   test "alternative symbols for NOT" do
