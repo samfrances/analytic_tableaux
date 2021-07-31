@@ -6,7 +6,8 @@ TURNSTILE  = \|\-
 OR         = (\||OR|\+|V|∨)
 AND        = (\&|AND|\.|\^|∧)
 IMPLIES    = (\-\>|IMPLIES|\>|→|⊃)
-IFF        = \=
+IFF        = (\=|IFF)
+IFF        = (\=|IFF|\<\-\>|\<\>|↔|⇔|≡|EQV|XNOR)
 NOT        = (\~|NOT|\¬|\-|\'|\!)
 
 Rules.
