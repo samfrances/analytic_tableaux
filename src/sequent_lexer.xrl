@@ -2,7 +2,7 @@ Definitions.
 
 ATOM       = [a-z]
 WHITESPACE = [\s\t\n\r]
-IMPLIES    = (\->|IMPLIES|\>|→|⊃)
+IMPLIES    = (\-\>|IMPLIES|\>|→|⊃)
 TURNSTILE  = \|\-
 OR         = (\||OR|\+|V|∨)
 AND        = (\&|AND|\.|\^|∧)
