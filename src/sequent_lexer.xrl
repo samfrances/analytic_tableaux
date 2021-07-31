@@ -2,11 +2,11 @@ Definitions.
 
 ATOM       = [a-z]
 WHITESPACE = [\s\t\n\r]
-ARROW      = \->
+IMPLIES    = (\->|IMPLIES|\>|→|⊃)
 TURNSTILE  = \|\-
-PIPE       = \|
-AMPERSAND  = \&
-TILDE      = \~
+OR         = (\||OR|\+|V|∨)
+AND        = (\&|AND|\.|\^|∧)
+NOT        = (\~|NOT|\¬|\-|\'|\!)
 
 Rules.
 
@@ -15,10 +15,10 @@ Rules.
 \)            : {token, {')',    TokenLine}}.
 ,             : {token, {',',    TokenLine}}.
 {TURNSTILE}   : {token, {'|-',   TokenLine}}.
-{TILDE}       : {token, {unary,  TokenLine, 'not'}}.
-{PIPE}        : {token, {binary, TokenLine, 'or'}}.
-{AMPERSAND}   : {token, {binary, TokenLine, 'and'}}.
-{ARROW}       : {token, {binary, TokenLine, 'implies'}}.
+{NOT}         : {token, {unary,  TokenLine, 'not'}}.
+{OR}          : {token, {binary, TokenLine, 'or'}}.
+{AND}         : {token, {binary, TokenLine, 'and'}}.
+{IMPLIES}     : {token, {binary, TokenLine, 'implies'}}.
 {WHITESPACE}+ : skip_token.
 
 Erlang code.
