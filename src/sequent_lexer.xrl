@@ -4,7 +4,7 @@ ATOM       = [a-z]
 WHITESPACE = [\s\t\n\r]
 IMPLIES    = (\-\>|IMPLIES|\>|→|⊃)
 TURNSTILE  = \|\-
-OR         = (\||OR|\+|V|∨|\*)
+OR         = (\||OR|\+|V|∨)
 AND        = (\&|AND|\.|\^|∧)
 NOT        = (\~|NOT|\¬|\-|\'|\!)
 
