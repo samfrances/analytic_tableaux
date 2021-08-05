@@ -4,12 +4,68 @@ defmodule RulesTest do
   alias AnalyticTableaux.Rules
   alias AnalyticTableaux.SignedFormula
 
-  test "T AND rule on atomic formulas" do
-    input = %SignedFormula{ formula: {:and, :a, :b}, truth_value: true}
+  test "T NOT rule on atomic formulas" do
+    input = %SignedFormula{ formula: {:not, :p}, truth_value: true}
     output = {
       {
-        %SignedFormula{ formula: :a, truth_value: true},
-        %SignedFormula{ formula: :b, truth_value: true},
+        %SignedFormula{ formula: :p, truth_value: false}
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "F NOT rule on atomic formulas" do
+    input = %SignedFormula{ formula: {:not, :p}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: :p, truth_value: true}
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "T NOT rule nested" do
+    input = %SignedFormula{ formula: {:not, {:not, :p}}, truth_value: true}
+    output = {
+      {
+        %SignedFormula{ formula: {:not, :p}, truth_value: false}
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "F NOT rule nested atomic formulas" do
+    input = %SignedFormula{ formula: {:not, {:not, :p}}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: {:not, :p}, truth_value: true}
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "T NOT rule on complex formulas" do
+    complex_formula = {:or, {:not, :d}, {:implies, :c, {:and, :a, :z}}}
+    input = %SignedFormula{ formula: {:not, complex_formula}, truth_value: true}
+    output = {
+      {
+        %SignedFormula{ formula: complex_formula, truth_value: false}
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "F NOT rule on complex formulas" do
+    complex_formula = {:or, {:not, :d}, {:implies, :c, {:and, :a, :z}}}
+    input = %SignedFormula{ formula: {:not, complex_formula}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: complex_formula, truth_value: true}
       },
       {}
     }
