@@ -1,6 +1,7 @@
 defmodule AnalyticTableaux.Rules do
   alias AnalyticTableaux.SignedFormula
 
+  # True NOT rule
   def apply(%SignedFormula{formula: {:not, a}, truth_value: true}) do
     {
       {
@@ -10,6 +11,7 @@ defmodule AnalyticTableaux.Rules do
     }
   end
 
+  # False NOT rule
   def apply(%SignedFormula{formula: {:not, a}, truth_value: false}) do
     {
       {
@@ -19,6 +21,7 @@ defmodule AnalyticTableaux.Rules do
     }
   end
 
+  # True AND rule
   def apply(%SignedFormula{formula: {:and, a, b}, truth_value: true}) do
     {
       {
@@ -29,6 +32,7 @@ defmodule AnalyticTableaux.Rules do
     }
   end
 
+  # False AND rule
   def apply(%SignedFormula{formula: {:and, a, b}, truth_value: false}) do
     {
       {
@@ -40,6 +44,7 @@ defmodule AnalyticTableaux.Rules do
     }
   end
 
+  # True OR rule
   def apply(%SignedFormula{formula: {:or, a, b}, truth_value: true}) do
     {
       {
@@ -51,6 +56,7 @@ defmodule AnalyticTableaux.Rules do
     }
   end
 
+  # False OR rule
   def apply(%SignedFormula{formula: {:or, a, b}, truth_value: false}) do
     {
       {
