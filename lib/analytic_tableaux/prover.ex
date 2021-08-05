@@ -8,30 +8,34 @@ defmodule AnalyticTableaux.Prover do
 
   def prove(sequent = [_h|_t]) do
     starting_point = [Node.from_sequent(sequent)]
-    prove(starting_point, false, nil, [starting_point])
+    prove(starting_point, _counterexample = nil, [starting_point])
   end
 
-  defp prove([], _found_counterexample? = false, nil, history) do
+  defp prove([], _counterexample = nil, history) do
     %__MODULE__{status: :valid, history: Enum.reverse(history)}
   end
 
-  defp prove(_queue, _found_counterexample? = true, counterexample, history) do
-    %__MODULE__{status: :not_valid, history: Enum.reverse(history), counterexample: counterexample}
+  defp prove(queue, _counterexample? = nil, history) do
+    {next_queue, counterexample} = step(queue)
+    prove(next_queue, counterexample, [next_queue|history])
   end
 
-  defp prove(queue, _found_counterexample? = false, nil, history) do
-    {next_queue, found_counterexample?, counterexample} = step(queue)
-    prove(next_queue, found_counterexample?, counterexample, [next_queue|history])
+  defp prove(_queue, counterexample, history) do
+    %__MODULE__{
+      status: :not_valid,
+      history: Enum.reverse(history),
+      counterexample: counterexample
+    }
   end
 
   def step([node|remaining]) do
     cond do
       Node.closed?(node) ->
-        {remaining, _found_counterexample? = false, nil}
+        {remaining, _counterexample? = nil}
       Node.complete?(node) ->
-        {remaining, _found_counterexample? = true, node}
+        {remaining, _counterexample? = node}
       true ->
-        {Node.next(node) ++ remaining, _found_counterexample? = false, nil}
+        {Node.next(node) ++ remaining, _counterexample? = nil}
     end
   end
 
