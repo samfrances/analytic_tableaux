@@ -114,4 +114,58 @@ defmodule RulesTest do
     assert Rules.apply(input) == output
   end
 
+  test "T OR rule on atomic formulas" do
+    input = %SignedFormula{ formula: {:or, :a, :b}, truth_value: true}
+    output = {
+      {
+        %SignedFormula{ formula: :a, truth_value: true},
+      },
+      {
+        %SignedFormula{ formula: :b, truth_value: true},
+      }
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "F OR rule on atomic formulas" do
+    input = %SignedFormula{ formula: {:or, :a, :b}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: :a, truth_value: false},
+        %SignedFormula{ formula: :b, truth_value: false},
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "T OR rule on complex formulas" do
+    disjunct_a = {:not, :a}
+    disjunct_b = :b
+    input = %SignedFormula{ formula: {:or, disjunct_a, disjunct_b}, truth_value: true}
+    output = {
+      {
+        %SignedFormula{ formula: disjunct_a, truth_value: true},
+      },
+      {
+        %SignedFormula{ formula: disjunct_b, truth_value: true},
+      }
+    }
+    assert Rules.apply(input) == output
+  end
+
+  test "F OR rule on complex formulas" do
+    disjunct_a = {:not, :a}
+    disjunct_b = :b
+    input = %SignedFormula{ formula: {:or, disjunct_a, disjunct_b}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: disjunct_a, truth_value: false},
+        %SignedFormula{ formula: disjunct_b, truth_value: false},
+      },
+      {}
+    }
+    assert Rules.apply(input) == output
+  end
+
 end
