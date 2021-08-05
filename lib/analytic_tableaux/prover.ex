@@ -1,4 +1,4 @@
-defmodule Prover do
+defmodule AnalyticTableaux.Prover do
   defstruct status: :unknown
 
   def prove(_sequent) do
