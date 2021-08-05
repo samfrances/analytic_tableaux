@@ -9,9 +9,9 @@ defmodule SignedSequentTest do
     expected = [
       %SignedFormula{formula: :a, truth_value: true},
       %SignedFormula{formula: :b, truth_value: true},
-      %SignedFormula{formula: :b, truth_value: false},
+      %SignedFormula{formula: :c, truth_value: false},
     ]
-    assert SignedSequent.from_unsigned(seq)
+    assert SignedSequent.from_unsigned(seq) == expected
   end
 
   test "example with more complex formulas" do
@@ -26,7 +26,7 @@ defmodule SignedSequentTest do
       %SignedFormula{formula: form_three, truth_value: true},
       %SignedFormula{formula: form_four, truth_value: false},
     ]
-    assert SignedSequent.from_unsigned(seq)
+    assert SignedSequent.from_unsigned(seq) == expected
   end
 
 end
