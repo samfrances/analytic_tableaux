@@ -29,11 +29,16 @@ defmodule AnalyticTableaux.Node do
   end
 
   def next(node) do
-    next_complex_formula = Enum.find(node, fn f -> not SignedFormula.atomic?(f) end)
+    sorted_node = node |> nonbranching_first()
+    next_complex_formula =
+      sorted_node
+      |> Enum.find(fn f -> not SignedFormula.atomic?(f) end)
 
     Rules.apply(next_complex_formula)
-    |> next(node, next_complex_formula)
-    |> Enum.map(&nonbranching_first/1)
+    |> next(
+      sorted_node,
+      next_complex_formula
+    )
   end
 
   # Non-branching produces single formula (i.e. NOT rule)
