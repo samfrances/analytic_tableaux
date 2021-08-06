@@ -41,6 +41,11 @@ defmodule AnalyticTableauxTest do
     assert AnalyticTableaux.prove(sequent).status == :valid
   end
 
+  test "The sequent p=q, ~q |- ~p is valid" do
+    sequent = "p=q, ~q |- ~p"
+    assert AnalyticTableaux.prove(sequent).status == :valid
+  end
+
   test "The sequent p|q, ~p |- q is valid" do
     sequent = "p|q, ~p |- q"
     assert AnalyticTableaux.prove(sequent).status == :valid

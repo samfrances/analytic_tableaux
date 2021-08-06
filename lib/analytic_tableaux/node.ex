@@ -30,6 +30,7 @@ defmodule AnalyticTableaux.Node do
     |> next(node, next_complex_formula)
   end
 
+  # Non-branching produces single formula (i.e. NOT rule)
   defp next({_left = {formula1}, _right = {}}, node, remove) do
     [
       [
@@ -39,6 +40,7 @@ defmodule AnalyticTableaux.Node do
     ]
   end
 
+  # Non-branching
   defp next({_left = {formula1, formula2}, _right = {}}, node, remove) do
     [
       [
@@ -48,11 +50,21 @@ defmodule AnalyticTableaux.Node do
     ]
   end
 
+  # Branching
   defp next({_left = {formula1}, _right = {formula2}}, node, remove) do
     decomposed_formula_removed = Enum.reject(node, fn f -> f == remove end)
     [
       [formula1 | decomposed_formula_removed],
       [formula2 | decomposed_formula_removed]
+    ]
+  end
+
+  # Branching, two formulas each branch (i.e. IFF rule)
+  defp next({_left = {formula1, formula2}, _right = {formula3, formula4}}, node, remove) do
+    decomposed_formula_removed = Enum.reject(node, fn f -> f == remove end)
+    [
+      [formula1, formula2 | decomposed_formula_removed],
+      [formula3, formula4 | decomposed_formula_removed]
     ]
   end
 
