@@ -230,4 +230,76 @@ defmodule RulesTest do
     assert Rules.apply(input) == output
   end
 
+  test "T IFF rule on atomic formulas" do
+    formula_a = :a
+    formula_b = :b
+    input =  %SignedFormula{ formula: {:iff, formula_a, formula_b}, truth_value: true}
+    output = {
+      {
+        %SignedFormula{ formula: formula_a, truth_value: true},
+        %SignedFormula{ formula: formula_b, truth_value: true},
+      },
+      {
+        %SignedFormula{ formula: formula_a, truth_value: false},
+        %SignedFormula{ formula: formula_b, truth_value: false},
+      }
+    }
+
+    assert Rules.apply(input) == output
+  end
+
+  test "T IFF rule on complex formulas" do
+    formula_a = {:imples, :a, :b}
+    formula_b = {:or, :b, {:not, :c}}
+    input =  %SignedFormula{ formula: {:iff, formula_a, formula_b}, truth_value: true}
+    output = {
+      {
+        %SignedFormula{ formula: formula_a, truth_value: true},
+        %SignedFormula{ formula: formula_b, truth_value: true},
+      },
+      {
+        %SignedFormula{ formula: formula_a, truth_value: false},
+        %SignedFormula{ formula: formula_b, truth_value: false},
+      }
+    }
+
+    assert Rules.apply(input) == output
+  end
+
+  test "F IFF rule on atomic formulas" do
+    formula_a = :a
+    formula_b = :b
+    input =  %SignedFormula{ formula: {:iff, formula_a, formula_b}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: formula_a, truth_value: true},
+        %SignedFormula{ formula: formula_b, truth_value: false},
+      },
+      {
+        %SignedFormula{ formula: formula_a, truth_value: false},
+        %SignedFormula{ formula: formula_b, truth_value: true},
+      }
+    }
+
+    assert Rules.apply(input) == output
+  end
+
+  test "F IFF rule on complex formulas" do
+    formula_a = {:imples, :a, :b}
+    formula_b = {:or, :b, {:not, :c}}
+    input =  %SignedFormula{ formula: {:iff, formula_a, formula_b}, truth_value: false}
+    output = {
+      {
+        %SignedFormula{ formula: formula_a, truth_value: true},
+        %SignedFormula{ formula: formula_b, truth_value: false},
+      },
+      {
+        %SignedFormula{ formula: formula_a, truth_value: false},
+        %SignedFormula{ formula: formula_b, truth_value: true},
+      }
+    }
+
+    assert Rules.apply(input) == output
+  end
+
 end

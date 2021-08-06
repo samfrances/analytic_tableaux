@@ -90,4 +90,31 @@ defmodule AnalyticTableaux.Rules do
       }
     end
 
+    # True IFF rule
+    def apply(%SignedFormula{formula: {:iff, a, b}, truth_value: true}) do
+      {
+        {
+          %SignedFormula{ formula: a, truth_value: true},
+          %SignedFormula{ formula: b, truth_value: true},
+        },
+        {
+          %SignedFormula{ formula: a, truth_value: false},
+          %SignedFormula{ formula: b, truth_value: false},
+        }
+      }
+    end
+
+    # False IFF rule
+    def apply(%SignedFormula{formula: {:iff, a, b}, truth_value: false}) do
+      {
+        {
+          %SignedFormula{ formula: a, truth_value: true},
+          %SignedFormula{ formula: b, truth_value: false},
+        },
+        {
+          %SignedFormula{ formula: a, truth_value: false},
+          %SignedFormula{ formula: b, truth_value: true},
+        }
+      }
+    end
 end
