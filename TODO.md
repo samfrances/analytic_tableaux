@@ -1,4 +1,3 @@
 - Improve tests
 - Property-based tests
-- Better strategy - decompose non-branching formulas first
 - Investigate parallelism
