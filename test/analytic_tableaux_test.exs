@@ -1,59 +1,22 @@
 defmodule AnalyticTableauxTest do
   use ExUnit.Case
 
-  test "The sequent p |- p is valid" do
-    sequent = "p |- p"
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
+  TestHelpers.SequentExamples.valid()
+  |> Enum.each(fn sequent ->
+    @tag sequent: sequent
+    @tag :pending
+    test "The sequent #{sequent} is valid", context do
+      assert Prover.prove(context.sequent).status == :valid
+    end
+  end)
 
-  test "The sequent p |- q is vNOT alid" do
-    sequent = "p |- q"
-    assert AnalyticTableaux.prove(sequent).status == :not_valid
-  end
-
-  test "The sequent p, p->q |- q is valid" do
-    sequent = "p, p->q |- q"
-
-    # signed_formulas = generate_signed_formulas(sequent)
-    # """
-    # T p
-    # T p->q
-    # F q
-    # """
-
-    # Parser.parse(signed_formulas)
-
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
-
-  test "The sequent p, p->r |- q is NOT valid" do
-    sequent = "p, p->r |- q"
-    assert AnalyticTableaux.prove(sequent).status == :not_valid
-  end
-
-  test "The sequent ~(p&q) |- ~p|~q is valid" do
-    sequent = "~(p&q) |- ~p|~q"
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
-
-  test "The sequent p->q, ~q |- ~p is valid" do
-    sequent = "p->q, ~q |- ~p"
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
-
-  test "The sequent p=q, ~q |- ~p is valid" do
-    sequent = "p=q, ~q |- ~p"
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
-
-  test "The sequent p|q, ~p |- q is valid" do
-    sequent = "p|q, ~p |- q"
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
-
-  test "The sequent p|q, ~q |- p is valid" do
-    sequent = "p|q, ~p |- q"
-    assert AnalyticTableaux.prove(sequent).status == :valid
-  end
+  TestHelpers.SequentExamples.invalid()
+  |> Enum.each(fn sequent ->
+    @tag sequent: sequent
+    @tag :pending
+    test "The sequent #{sequent} is NOT valid", context do
+      assert Prover.prove(context.sequent).status == :not_valid
+    end
+  end)
 
 end
