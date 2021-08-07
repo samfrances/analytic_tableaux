@@ -30,4 +30,16 @@ defmodule AnalyticTableaux.SignedFormula do
   def branching?(%__MODULE__{}) do
     false
   end
+
+end
+
+alias AnalyticTableaux.SignedFormula
+
+defimpl String.Chars, for: SignedFormula do
+  alias AnalyticTableaux.Formula
+
+  def to_string(%SignedFormula{formula: formula, truth_value: truth_value}) do
+    truth = if truth_value, do: "T", else: "F"
+    "#{truth} #{Formula.pretty_print(formula)}"
+  end
 end
