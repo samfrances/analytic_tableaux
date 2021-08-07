@@ -11,3 +11,4 @@ p, p->q |- q
 p->q, ~q |- ~p
 p|q, ~p |- q
 p|q, ~q |- p
+p=q, ~q |- ~p
