@@ -122,4 +122,17 @@ defmodule ParserTest do
     assert AnalyticTableaux.Parser.parse("|- a_1 IFF b_3_4") == [{:iff, :a_1, :b_3_4}]
   end
 
+  test "binary operators are right associative" do
+    assert AnalyticTableaux.Parser.parse("|- a&b&c") == [{:and, :a, {:and, :b, :c}}]
+    assert AnalyticTableaux.Parser.parse("|- a&b&c&d") == [{:and, :a, {:and, :b, {:and, :c, :d}}}]
+    assert AnalyticTableaux.Parser.parse("|- a&b|c&d") == [{:and, :a, {:or, :b, {:and, :c, :d}}}]
+  end
+
+  test "NOT takes precedence over binary operator" do
+    assert AnalyticTableaux.Parser.parse("|- ~a&b") == [{:and, {:not, :a}, :b}]
+    assert AnalyticTableaux.Parser.parse("|- ~a|b") == [{:or, {:not, :a}, :b}]
+    assert AnalyticTableaux.Parser.parse("|- ~a->b") == [{:implies, {:not, :a}, :b}]
+    assert AnalyticTableaux.Parser.parse("|- ~a=b") == [{:iff, {:not, :a}, :b}]
+  end
+
 end

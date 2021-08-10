@@ -1,20 +1,17 @@
-Nonterminals sequent outer_formula outer_formulas formula binary_op unary_op.
-Terminals atom '|-' ',' '(' ')' binary unary.
+Nonterminals sequent formulas formula binary_op unary_op.
+Terminals atom '|-' ',' '(' ')' 'and' binary unary.
 Rootsymbol sequent.
+Right 100 binary_op.
+Right 200 unary_op.
 
-sequent    ->  '|-' outer_formula                 : ['$2'].
-sequent    ->  outer_formulas '|-' outer_formula  : append('$1', ['$3']).
+sequent    ->  '|-' formula                 : ['$2'].
+sequent    ->  formulas '|-' formula  : append('$1', ['$3']).
 
-outer_formulas   ->  outer_formula                     : ['$1'].
-outer_formulas   ->  outer_formula ',' outer_formulas  : ['$1'|'$3'].
-
-% distinguish outer formula from formula to allow top-level formulas
-% without surrounding parentheses
-outer_formula    ->  formula                         : '$1'.
-outer_formula    ->  formula binary_op formula       : {'$2', '$1', '$3'}.
+formulas   ->  formula                     : ['$1'].
+formulas   ->  formula ',' formulas  : ['$1'|'$3'].
 
 formula    ->  atom                             : extract_token('$1').
-formula    -> '(' formula binary_op formula ')' : {'$3', '$2', '$4'}.
+formula    -> formula binary_op formula : {'$2', '$1', '$3'}.
 formula    -> unary_op formula                  : {'$1', '$2'}.
 % overbracketing
 formula    -> '(' formula ')'                   : '$2'.
