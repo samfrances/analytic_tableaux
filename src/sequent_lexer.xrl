@@ -1,6 +1,6 @@
 Definitions.
 
-ATOM       = [a-z]
+ATOM       = [a-z_0-9]+
 WHITESPACE = [\s\t\n\r]
 TURNSTILE  = \|\-
 OR         = (\||OR|\+|V|∨)

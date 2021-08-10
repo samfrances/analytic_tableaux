@@ -118,4 +118,8 @@ defmodule ParserTest do
     assert AnalyticTableaux.Parser.parse("|- a XNOR b") == [{:iff, :a, :b}]
   end
 
+  test "should allow longer atoms containing numbers and underscores" do
+    assert AnalyticTableaux.Parser.parse("|- a_1 IFF b_3_4") == [{:iff, :a_1, :b_3_4}]
+  end
+
 end
