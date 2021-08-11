@@ -1,5 +1,7 @@
 defmodule AnalyticTableauxTest do
   use ExUnit.Case
+
+  alias AnalyticTableaux.Validator
   import AnalyticTableaux
 
   TestHelpers.SequentExamples.valid()
@@ -14,7 +16,10 @@ defmodule AnalyticTableauxTest do
   |> Enum.each(fn sequent ->
     @tag sequent: sequent
     test "The sequent #{sequent} is NOT valid", context do
-      assert prove(context.sequent) |> get_status() == :not_valid
+      result = prove(context.sequent)
+      assert result |> get_status() == :not_valid
+      countervaluation = result |> get_countervaluation()
+      assert Validator.value(context.sequent, countervaluation) == false
     end
   end)
 

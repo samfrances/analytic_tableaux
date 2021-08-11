@@ -26,4 +26,39 @@ defmodule AnalyticTableaux.Validator do
     Map.get(valuation, f, :incomplete_valuation)
   end
 
+  defp value_formula({op, a, b}, valuation) do
+    left_side = value_formula(a, valuation)
+    right_side = value_formula(b, valuation)
+    if :incomplete_valuation in [left_side, right_side] do
+      :incomplete_valuation
+    else
+      value_binary({op, left_side, right_side})
+    end
+  end
+
+  defp value_formula({:not, a}, valuation) do
+    a_val = value_formula(a, valuation)
+    if a_val == :incomplete_valuation do
+      a_val
+    else
+      not a_val
+    end
+  end
+
+  defp value_binary({:and, a_val, b_val}) do
+    a_val and b_val
+  end
+
+  defp value_binary({:or, a_val, b_val}) do
+    a_val or b_val
+  end
+
+  defp value_binary({:implies, a_val, b_val}) do
+    (not a_val) or b_val
+  end
+
+  defp value_binary({:iff, a_val, b_val}) do
+    a_val == b_val
+  end
+
 end
