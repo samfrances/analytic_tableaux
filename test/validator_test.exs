@@ -13,8 +13,11 @@ defmodule ValidatorTest do
     assert Validator.value("a|-a", %{a: false}) == true
     assert Validator.value("a|-a", %{b: true}) == :unknown
     assert Validator.value("b|-a", %{}) == :unknown
-    assert Validator.value("b|-a", %{a: true}) == :unknown
+    assert Validator.value("b|-a", %{}) == :unknown
+    assert Validator.value("b|-a", %{a: true}) == true
+    assert Validator.value("b|-a", %{a: false}) == :unknown
     assert Validator.value("b|-a", %{b: true}) == :unknown
+    assert Validator.value("b|-a", %{b: false}) == true
     assert Validator.value("b|-a", %{b: true, a: false}) == :false
     assert Validator.value("b|-a", %{b: false, a: false}) == :true
     assert Validator.value("b|-a", %{b: false, a: true}) == :true
@@ -23,10 +26,16 @@ defmodule ValidatorTest do
     assert Validator.value("a,b|-c", %{a: false, b: true,  c: true }) == true
     assert Validator.value("a,b|-c", %{a: true,  b: false, c: true }) == true
     assert Validator.value("a,b|-c", %{a: false, b: false, c: true }) == true
+    assert Validator.value("a,b|-c", %{b: true, c: true }) == true
+    assert Validator.value("a,b|-c", %{a: true, c: true }) == true
     assert Validator.value("a,b|-c", %{a: true,  b: true,  c: false}) == false
     assert Validator.value("a,b|-c", %{a: false, b: true,  c: false}) == true
     assert Validator.value("a,b|-c", %{a: true,  b: false, c: false}) == true
     assert Validator.value("a,b|-c", %{a: false, b: false, c: false}) == true
+    assert Validator.value("a,b|-c", %{a: true,  c: false}) == :unknown
+    assert Validator.value("a,b|-c", %{b: true,  c: false}) == :unknown
+    assert Validator.value("a,b|-c", %{a: false,  c: false}) == true
+    assert Validator.value("a,b|-c", %{b: false,  c: false}) == true
   end
 
   test "conjunctions with atomic children, in conclusion" do
@@ -35,9 +44,9 @@ defmodule ValidatorTest do
     assert Validator.value("|-a&b", %{ a: false, b: true  }) == false
     assert Validator.value("|-a&b", %{ a: false, b: false }) == false
     assert Validator.value("|-a&b", %{ a: true  }) == :unknown
-    assert Validator.value("|-a&b", %{ a: false }) == :unknown
+    assert Validator.value("|-a&b", %{ a: false }) == false
     assert Validator.value("|-a&b", %{ b: true  }) == :unknown
-    assert Validator.value("|-a&b", %{ b: false }) == :unknown
+    assert Validator.value("|-a&b", %{ b: false }) == false
   end
 
   test "disjunctions with atomic children, in conclusion" do
@@ -45,9 +54,9 @@ defmodule ValidatorTest do
     assert Validator.value("|-a|b", %{ a: true,  b: false }) == true
     assert Validator.value("|-a|b", %{ a: false, b: true  }) == true
     assert Validator.value("|-a|b", %{ a: false, b: false }) == false
-    assert Validator.value("|-a|b", %{ a: true  }) == :unknown
+    assert Validator.value("|-a|b", %{ a: true  }) == true
     assert Validator.value("|-a|b", %{ a: false }) == :unknown
-    assert Validator.value("|-a|b", %{ b: true  }) == :unknown
+    assert Validator.value("|-a|b", %{ b: true  }) == true
     assert Validator.value("|-a|b", %{ b: false }) == :unknown
   end
 
@@ -57,8 +66,8 @@ defmodule ValidatorTest do
     assert Validator.value("|-a->b", %{ a: false, b: true  }) == true
     assert Validator.value("|-a->b", %{ a: false, b: false }) == true
     assert Validator.value("|-a->b", %{ a: true  }) == :unknown
-    assert Validator.value("|-a->b", %{ a: false }) == :unknown
-    assert Validator.value("|-a->b", %{ b: true  }) == :unknown
+    assert Validator.value("|-a->b", %{ a: false }) == true
+    assert Validator.value("|-a->b", %{ b: true  }) == true
     assert Validator.value("|-a->b", %{ b: false }) == :unknown
   end
 
