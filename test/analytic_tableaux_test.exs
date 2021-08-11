@@ -1,7 +1,7 @@
 defmodule AnalyticTableauxTest do
   use ExUnit.Case
 
-  alias AnalyticTableaux.Validator
+  alias AnalyticTableaux.Valuator
   import AnalyticTableaux
 
   TestHelpers.SequentExamples.valid()
@@ -19,7 +19,7 @@ defmodule AnalyticTableauxTest do
       result = prove(context.sequent)
       assert result |> get_status() == :not_valid
       countervaluation = result |> get_countervaluation()
-      assert Validator.value(context.sequent, countervaluation) == false
+      assert Valuator.value(context.sequent, countervaluation) == false
     end
   end)
 

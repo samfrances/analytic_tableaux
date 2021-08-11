@@ -1,4 +1,4 @@
-defmodule AnalyticTableaux.Validator do
+defmodule AnalyticTableaux.Valuator do
   alias AnalyticTableaux.Parser
 
   def value(sequent, valuation = %{}) do
