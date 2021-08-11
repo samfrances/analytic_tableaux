@@ -12,4 +12,8 @@ defmodule AnalyticTableaux do
     |> SignedSequent.from_unsigned()
     |> Prover.prove()
   end
+
+  defdelegate get_status(result), to: Prover
+
+  defdelegate get_countervaluation(result), to: Prover
 end
