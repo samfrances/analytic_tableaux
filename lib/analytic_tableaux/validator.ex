@@ -5,8 +5,8 @@ defmodule AnalyticTableaux.Validator do
     truth_values =
       Parser.parse(sequent)
       |> Enum.map(fn f -> value_formula(f, valuation) end)
-    if :unknown in truth_values do
-      :unknown
+    if :incomplete_valuation in truth_values do
+      :incomplete_valuation
     else
       value(truth_values)
     end
@@ -23,7 +23,7 @@ defmodule AnalyticTableaux.Validator do
   end
 
   defp value_formula(f, valuation) when is_atom(f) do
-    Map.get(valuation, f, :unknown)
+    Map.get(valuation, f, :incomplete_valuation)
   end
 
 end

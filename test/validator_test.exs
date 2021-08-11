@@ -5,16 +5,16 @@ defmodule ValidatorTest do
   test "simple atomic formula in conclusion" do
     assert Validator.value("|-a", %{a: false}) == false
     assert Validator.value("|-a", %{a: true}) == true
-    assert Validator.value("|-a", %{b: true}) == :unknown
+    assert Validator.value("|-a", %{b: true}) == :incomplete_valuation
   end
 
   test "simple atomic formulas in premise and conclusion" do
     assert Validator.value("a|-a", %{a: true}) == true
     assert Validator.value("a|-a", %{a: false}) == true
-    assert Validator.value("a|-a", %{b: true}) == :unknown
-    assert Validator.value("b|-a", %{}) == :unknown
-    assert Validator.value("b|-a", %{a: true}) == :unknown
-    assert Validator.value("b|-a", %{b: true}) == :unknown
+    assert Validator.value("a|-a", %{b: true}) == :incomplete_valuation
+    assert Validator.value("b|-a", %{}) == :incomplete_valuation
+    assert Validator.value("b|-a", %{a: true}) == :incomplete_valuation
+    assert Validator.value("b|-a", %{b: true}) == :incomplete_valuation
     assert Validator.value("b|-a", %{b: true, a: false}) == :false
     assert Validator.value("b|-a", %{b: false, a: false}) == :true
     assert Validator.value("b|-a", %{b: false, a: true}) == :true
