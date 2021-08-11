@@ -43,7 +43,7 @@ defmodule ProblemGenerator do
       [i, j]
     end
     |> Enum.reject(fn [i, j] -> j <= i end)
-    |> Enum.reject(fn [i, j] -> j - i > 2 end)
+    # |> Enum.reject(fn [i, j] -> j - i > 2 end)
   end
 
 end
