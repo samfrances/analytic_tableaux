@@ -1,3 +1,4 @@
 - Improve tests
 - Property-based tests
 - Investigate parallelism
+- Add type specs and type checking
