@@ -38,7 +38,7 @@ defmodule ProblemGenerator do
     |> add_external_parentheses(n)
   end
 
-  def envelope_pairings(n) do
+  defp envelope_pairings(n) do
     for i <- 1..(n+1), j <- 1..(n+1) do
       [i, j]
     end
