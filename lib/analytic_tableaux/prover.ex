@@ -17,6 +17,8 @@ defmodule AnalyticTableaux.Prover do
     history: list(Node.t())
   }
 
+  @type simplified_valuation :: %{optional(atom()) => boolean()}
+
   @spec prove(SignedSequent.t()) :: __MODULE__.t()
   def prove(sequent) when length(sequent) > 0 do
     starting_point = [Node.from_sequent(sequent)]
@@ -28,7 +30,7 @@ defmodule AnalyticTableaux.Prover do
     status
   end
 
-  @spec get_countervaluation(AnalyticTableaux.Prover.t()) :: %{optional(atom) => boolean}
+  @spec get_countervaluation(AnalyticTableaux.Prover.t()) :: simplified_valuation()
   def get_countervaluation(%__MODULE__{countervaluation: counterv}) do
     simplify_countervaluation(counterv)
   end
@@ -61,7 +63,7 @@ defmodule AnalyticTableaux.Prover do
     end
   end
 
-  @spec simplify_countervaluation(Node.t()) :: %{optional(atom()) => boolean()}
+  @spec simplify_countervaluation(Node.t()) :: simplified_valuation()
   defp simplify_countervaluation(node) do
     node
     |> Enum.map(&unpack_atomic_signed_formula/1)
