@@ -9,6 +9,7 @@ defmodule AnalyticTableaux.Parser do
     sequent
   end
 
+  @spec tokenize(binary) :: list
   def tokenize(str) do
     {:ok, tokens, _} = str |> to_charlist() |> :sequent_lexer.string()
     tokens

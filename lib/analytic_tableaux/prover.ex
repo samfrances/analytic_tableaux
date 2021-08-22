@@ -1,21 +1,34 @@
 defmodule AnalyticTableaux.Prover do
+  alias AnalyticTableaux.Node
+  alias AnalyticTableaux.SignedFormula
+  alias AnalyticTableaux.SignedSequent
+
   defstruct(
     status: :unknown,
     history: [],
     countervaluation: []
   )
-  alias AnalyticTableaux.Node
-  alias AnalyticTableaux.SignedFormula
 
-  def prove(sequent = [_h|_t]) do
+  @type proof_status :: :unknown | :valid | :not_valid
+
+  @type t() :: %__MODULE__{
+    status: proof_status,
+    countervaluation: Node.t(),
+    history: list(Node.t())
+  }
+
+  @spec prove(SignedSequent.t()) :: __MODULE__.t()
+  def prove(sequent) when length(sequent) > 0 do
     starting_point = [Node.from_sequent(sequent)]
     prove(starting_point, _countervaluation = nil, [starting_point])
   end
 
+  @spec get_status(__MODULE__.t()) :: proof_status()
   def get_status(%__MODULE__{status: status}) do
     status
   end
 
+  @spec get_countervaluation(AnalyticTableaux.Prover.t()) :: %{optional(atom) => boolean}
   def get_countervaluation(%__MODULE__{countervaluation: counterv}) do
     simplify_countervaluation(counterv)
   end
@@ -48,6 +61,7 @@ defmodule AnalyticTableaux.Prover do
     end
   end
 
+  @spec simplify_countervaluation(Node.t()) :: %{optional(atom()) => boolean()}
   defp simplify_countervaluation(node) do
     node
     |> Enum.map(&unpack_atomic_signed_formula/1)

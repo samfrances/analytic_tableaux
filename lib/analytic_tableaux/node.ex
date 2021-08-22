@@ -2,7 +2,11 @@ defmodule AnalyticTableaux.Node do
 
   alias AnalyticTableaux.SignedFormula
   alias AnalyticTableaux.Rules
+  alias AnalyticTableaux.SignedSequent
 
+  @type t() :: list(SignedFormula.t())
+
+  @spec from_sequent(SignedSequent.t()) :: __MODULE__.t()
   def from_sequent(sequent = [_h|_t]) do
     sequent
   end

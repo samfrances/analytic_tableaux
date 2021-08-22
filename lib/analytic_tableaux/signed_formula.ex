@@ -1,16 +1,23 @@
 defmodule AnalyticTableaux.SignedFormula do
+  alias AnalyticTableaux.Formula
+
   defstruct formula: :nil, truth_value: true
+
+  @type t() :: %__MODULE__{formula: Formula.t(), truth_value: boolean}
 
   alias AnalyticTableaux.Formula
 
+  @spec atomic?(__MODULE__.t()) :: boolean
   def atomic?(%__MODULE__{formula: formula}) do
     Formula.atomic?(formula)
   end
 
+  @spec contradict(__MODULE__.t()) :: __MODULE__.t()
   def contradict(%__MODULE__{formula: formula, truth_value: truth_value}) do
     %__MODULE__{formula: formula, truth_value: not truth_value}
   end
 
+  @spec branching?(__MODULE__.t()) :: boolean
   def branching?(%__MODULE__{formula: {:or, _a, _b}, truth_value: true}) do
     true
   end
