@@ -22,8 +22,8 @@ defmodule AnalyticTableaux.Formula do
     to_string(formula)
   end
 
-  def pretty_print({:and, a, b}) do
-    "(#{pretty_print(a)} & #{pretty_print(b)})"
+  def pretty_print({:and, _a, b}) do
+    "(#{pretty_print(1)} & #{pretty_print(b)})"
   end
 
   def pretty_print({:or, a, b}) do
