@@ -1,11 +1,11 @@
 defmodule AnalyticTableaux.Valuator do
   alias AnalyticTableaux.Parser
-  alias AnalyticTableaux.Prover
+  alias AnalyticTableaux.ProverResult
   alias AnalyticTableaux.Formula
 
   @type valuation :: boolean() | :unknown
 
-  @spec value(binary, Prover.simplified_valuation()) :: valuation()
+  @spec value(binary, ProverResult.simplified_valuation()) :: valuation()
   def value(sequent, valuation = %{}) do
     Parser.parse(sequent)
     |> Enum.map(fn f -> value_formula(f, valuation) end)
@@ -36,7 +36,7 @@ defmodule AnalyticTableaux.Valuator do
     Enum.all?(premises, fn p -> p == true end)
   end
 
-  @spec value_formula(Formula.t(), Prover.simplified_valuation()) :: valuation()
+  @spec value_formula(Formula.t(), ProverResult.simplified_valuation()) :: valuation()
   defp value_formula(f, valuation) when is_atom(f) do
     Map.get(valuation, f, :unknown)
   end

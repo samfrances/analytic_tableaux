@@ -49,33 +49,36 @@ defmodule AnalyticTableaux.BlockProver do
     end
   end
 
-end
+  defimpl AnalyticTableaux.ProverResult do
+    alias AnalyticTableaux.SignedFormula
+    alias AnalyticTableaux.Node
+    alias AnalyticTableaux.ProverResult
+    alias AnalyticTableaux.BlockProver
 
-defimpl AnalyticTableaux.ProverResult, for: AnalyticTableaux.BlockProver do
-  alias AnalyticTableaux.SignedFormula
-  alias AnalyticTableaux.Node
-  alias AnalyticTableaux.ProverResult
+    @spec get_status(BlockProver.t()) :: ProverResult.proof_status()
+    def get_status(%BlockProver{status: status}) do
+      status
+    end
 
-  def get_status(%AnalyticTableaux.BlockProver{status: status}) do
-    status
+    @spec get_countervaluation(BlockProver.t()) :: ProverResult.simplified_valuation()
+    def get_countervaluation(%BlockProver{countervaluation: counterv}) do
+      simplify_countervaluation(counterv)
+    end
+
+    @spec simplify_countervaluation(Node.t()) :: ProverResult.simplified_valuation()
+    defp simplify_countervaluation(node) do
+      node
+      |> Enum.map(&unpack_atomic_signed_formula/1)
+      |> Map.new()
+    end
+
+    defp unpack_atomic_signed_formula(%SignedFormula{
+      formula: formula,
+      truth_value: truth
+    }) when is_atom(formula) do
+      {formula, truth}
+    end
+
   end
 
-  @spec get_countervaluation(AnalyticTableaux.Prover.t()) :: ProverResult.simplified_valuation()
-  def get_countervaluation(%AnalyticTableaux.BlockProver{countervaluation: counterv}) do
-    simplify_countervaluation(counterv)
-  end
-
-  @spec simplify_countervaluation(Node.t()) :: ProverResult.simplified_valuation()
-  defp simplify_countervaluation(node) do
-    node
-    |> Enum.map(&unpack_atomic_signed_formula/1)
-    |> Map.new()
-  end
-
-  defp unpack_atomic_signed_formula(%SignedFormula{
-    formula: formula,
-    truth_value: truth
-  }) when is_atom(formula) do
-    {formula, truth}
-  end
 end
