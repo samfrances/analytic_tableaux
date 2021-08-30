@@ -3,6 +3,8 @@ defmodule AnalyticTableaux.BlockProver do
   alias AnalyticTableaux.SignedSequent
   alias AnalyticTableaux.ProverResult
 
+  @behaviour AnalyticTableaux.Prover
+
   defstruct(
     status: :unknown,
     history: [],
