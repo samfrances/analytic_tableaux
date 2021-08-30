@@ -5,6 +5,7 @@ defmodule AnalyticTableaux do
   alias AnalyticTableaux.Parser
   alias AnalyticTableaux.SignedSequent
   alias AnalyticTableaux.BlockProver
+  alias AnalyticTableaux.ProverResult
 
   def prove(sequent_text, prover \\ BlockProver) do
     sequent_text
@@ -13,7 +14,7 @@ defmodule AnalyticTableaux do
     |> prover.prove()
   end
 
-  defdelegate get_status(result), to: BlockProver
+  defdelegate get_status(result), to: ProverResult
 
-  defdelegate get_countervaluation(result), to: BlockProver
+  defdelegate get_countervaluation(result), to: ProverResult
 end
