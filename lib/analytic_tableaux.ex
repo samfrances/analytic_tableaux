@@ -4,16 +4,16 @@ defmodule AnalyticTableaux do
   """
   alias AnalyticTableaux.Parser
   alias AnalyticTableaux.SignedSequent
-  alias AnalyticTableaux.Prover
+  alias AnalyticTableaux.BlockProver
 
-  def prove(sequent_text) do
+  def prove(sequent_text, prover \\ BlockProver) do
     sequent_text
     |> Parser.parse()
     |> SignedSequent.from_unsigned()
-    |> Prover.prove()
+    |> prover.prove()
   end
 
-  defdelegate get_status(result), to: Prover
+  defdelegate get_status(result), to: BlockProver
 
-  defdelegate get_countervaluation(result), to: Prover
+  defdelegate get_countervaluation(result), to: BlockProver
 end

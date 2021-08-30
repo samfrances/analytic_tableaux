@@ -1,4 +1,4 @@
-defmodule AnalyticTableaux.Prover do
+defmodule AnalyticTableaux.BlockProver do
   alias AnalyticTableaux.Node
   alias AnalyticTableaux.SignedFormula
   alias AnalyticTableaux.SignedSequent
