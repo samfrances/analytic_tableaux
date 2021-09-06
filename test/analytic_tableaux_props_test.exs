@@ -253,8 +253,81 @@ defmodule AnalyticTableauxPropsTest do
     end
   end
 
+  @tag :wip
+  property "affirming a disjunct (|)" do
+    forall p <- simple_formula() do
+      forall q <- simple_formula() do
+        implies (atomically_disjoint?(p, q)) do
+          not (
+            "#{p}|#{q},#{p} |- ~#{q}"
+            |> AnalyticTableaux.prove()
+            |> is_valid()
+          )
+        end
+      end
+    end
+  end
+
+  @tag :wip
+  property "affirming the consequent (->)" do
+    forall p <- simple_formula() do
+      forall q <- simple_formula() do
+        implies (p != q) do
+          not (
+            "#{p}->#{q},#{q} |- #{p}"
+            |> AnalyticTableaux.prove()
+            |> is_valid()
+          )
+        end
+      end
+    end
+  end
+
+  @tag :wip
+  property "denying the antecedent (->)" do
+    forall p <- simple_formula() do
+      forall q <- simple_formula() do
+        implies (p != q) do
+          not (
+            "#{p}->#{q},~#{p} |- ~#{q}"
+            |> AnalyticTableaux.prove()
+            |> is_valid()
+          )
+        end
+      end
+    end
+  end
+
+  @tag :wip
+  property "denying a conjunct (&)" do
+    forall p <- simple_formula() do
+      forall q <- simple_formula() do
+        implies (atomically_disjoint?(p, q)) do
+          not (
+            "~(#{p}&#{q}),~#{q} |- #{p}"
+            |> AnalyticTableaux.prove()
+            |> is_valid()
+          )
+        end
+      end
+    end
+  end
+
   def is_valid(result) do
     AnalyticTableaux.get_status(result) == :valid
+  end
+
+  @spec atomically_disjoint?(binary(), binary()) :: boolean()
+  def atomically_disjoint?(f1, f2) do
+    MapSet.disjoint?(atomic_sub_formulas(f1), atomic_sub_formulas(f2))
+  end
+
+  @spec atomic_sub_formulas(binary()) :: MapSet.t()
+  def atomic_sub_formulas(formula) do
+    formula
+    |> String.to_charlist()
+    |> Enum.filter(fn c -> Enum.member?(?a..?z, c) end)
+    |> MapSet.new()
   end
 
   # Generators
@@ -263,7 +336,7 @@ defmodule AnalyticTableauxPropsTest do
     let({c, b} <- {atomic_formula(), boolean()}, do: simple_formula_to_string(c, b))
   end
 
-  def simple_formula_to_string(c, true), do: c
+  def simple_formula_to_string(c, true), do: "#{c}"
   def simple_formula_to_string(c, false), do: "~#{c}"
 
   defp atomic_formula() do
