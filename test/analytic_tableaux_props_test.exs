@@ -113,6 +113,112 @@ defmodule AnalyticTableauxPropsTest do
     end
   end
 
+  property "ex contradictione quodlibet (~)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p},~#{p} |- #{q}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "double negation introduction (~)" do
+    forall p <- formula() do
+      "#{p} |- ~~#{p}"
+      |> AnalyticTableaux.prove()
+      |> is_valid()
+    end
+  end
+
+  property "double negation elimination (~)" do
+    forall p <- formula() do
+      "~~#{p} |- #{p}"
+      |> AnalyticTableaux.prove()
+      |> is_valid()
+    end
+  end
+
+  property "reduction ad absurdum (~)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}->#{q},#{p}->~#{q} |- ~#{p}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional introduction (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}->#{q},#{q}->#{p} |- #{p}=#{q}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional elimination 1 (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}=#{q},#{p} |- #{q}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional elimination 2 (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}=#{q},#{q} |- #{p}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional elimination 3 (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}=#{q},~#{p} |- ~#{q}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional elimination 4 (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}=#{q},~#{q} |- ~#{p}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional elimination 5 (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}=#{q},#{q}|#{p} |- #{q}&#{p}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
+  property "biconditional elimination 6 (=)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}=#{q},~#{q}|~#{p} |- ~#{q}&~#{p}"
+        |> AnalyticTableaux.prove()
+        |> is_valid()
+      end
+    end
+  end
+
   property "tautology: A v ~A" do
     forall p <- formula() do
       AnalyticTableaux.prove("|- #{p}|~#{p}") |> is_valid()
