@@ -2,6 +2,19 @@
 
 **TODO: Add description**
 
+## TODO
+
+- [] Property-based testing
+- [] Multiple prover implementations
+  - [x] Block tablueax
+  - [] Tree tableaux
+
+# Elixir features used
+
+- [x] Protocols
+- [x] Behaviours
+- [] Property-based testing
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
