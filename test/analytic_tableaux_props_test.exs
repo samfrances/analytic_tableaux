@@ -52,6 +52,40 @@ defmodule AnalyticTableauxPropsTest do
     end
   end
 
+  property "tautology: A v ~A" do
+    forall p <- formula() do
+      AnalyticTableaux.prove("|- #{p}|~#{p}") |> is_valid()
+    end
+  end
+
+  property "tautology: ~(A & ~A)" do
+    forall p <- formula() do
+      AnalyticTableaux.prove("|- ~(#{p}&~#{p})") |> is_valid()
+    end
+  end
+
+  property "De Morgan's first law" do
+    forall p <- formula() do
+      forall q <- formula() do
+        left = "~(#{p}|#{q})"
+        right = "~#{p}&~#{q}"
+        AnalyticTableaux.prove("#{left}  |- #{right}") |> is_valid()
+        AnalyticTableaux.prove("#{right} |- #{left}" ) |> is_valid()
+      end
+    end
+  end
+
+  property "De Morgan's second law" do
+    forall p <- formula() do
+      forall q <- formula() do
+        left = "~(#{p}&#{q})"
+        right = "~#{p}|~#{q}"
+        AnalyticTableaux.prove("#{left}  |- #{right}") |> is_valid()
+        AnalyticTableaux.prove("#{right} |- #{left}" ) |> is_valid()
+      end
+    end
+  end
+
   def is_valid(result) do
     AnalyticTableaux.get_status(result) == :valid
   end
