@@ -52,6 +52,67 @@ defmodule AnalyticTableauxPropsTest do
     end
   end
 
+  property "adjunction (&)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        AnalyticTableaux.prove("#{p},#{q} |- #{p}&#{q}") |> is_valid()
+      end
+    end
+  end
+
+  property "simplification (&)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        AnalyticTableaux.prove("#{p}&#{q} |- #{p}") |> is_valid()
+        AnalyticTableaux.prove("#{p}&#{q} |- #{q}") |> is_valid()
+      end
+    end
+  end
+
+  property "addition (|)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        AnalyticTableaux.prove("#{p} |- #{p}|#{q}") |> is_valid()
+        AnalyticTableaux.prove("#{q} |- #{p}|#{q}") |> is_valid()
+      end
+    end
+  end
+
+  property "case analysis (|)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        forall r <- formula() do
+          "#{p}->#{r},#{q}->#{r},#{p}|#{q} |- #{r}"
+          |> AnalyticTableaux.prove()
+          |> is_valid()
+        end
+      end
+    end
+  end
+
+  property "disjunctive syllogism (|)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        "#{p}|#{q},~#{p} |- #{q}" |> AnalyticTableaux.prove() |> is_valid()
+        "#{p}|#{q},~#{q} |- #{p}" |> AnalyticTableaux.prove() |> is_valid()
+      end
+    end
+  end
+
+  property "constructive dilemma (|)" do
+    forall p <- formula() do
+      forall q <- formula() do
+        forall r <- formula() do
+          forall s <- formula() do
+            "#{p}->#{r},#{q}->#{s},#{p}|#{q} |- #{r}|#{s}"
+            |> AnalyticTableaux.prove()
+            |> is_valid()
+          end
+        end
+      end
+    end
+  end
+
   property "tautology: A v ~A" do
     forall p <- formula() do
       AnalyticTableaux.prove("|- #{p}|~#{p}") |> is_valid()
