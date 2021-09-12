@@ -1,39 +1,30 @@
 # AnalyticTableaux
 
-**TODO: Add description**
+This is an implementation in Elixir of the [Method of Analytic Tableaux](https://en.wikipedia.org/wiki/Method_of_analytic_tableaux) for proving arguments (sequents) in [propositional logic](https://en.wikipedia.org/wiki/Propositional_calculus).
 
-## TODO
+We implement the "signed formulae" version of analytic tableaux.
 
-- [] Property-based testing
-- [] Multiple prover implementations
-  - [x] Block tablueax
-  - [] Tree tableaux
+The code is structured to allow for multiple implementations of the prover.
+
+Currently, a single prover based on the ("block tableaux")[https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiigdOqkvnyAhWOfMAKHV8cBdQQFnoECAUQAQ&url=http%3A%2F%2Fwww.cs.cornell.edu%2Fcourses%2Fcs4860%2F2012fa%2Flec-09.pdf&usg=AOvVaw3H9bxXXFRyPMp0zTaBWugt] variant of the method has been implemented.
+
 
 # Elixir features used
 
 - [x] Protocols
 - [x] Behaviours
-- [] Property-based testing
+- [x] Property-based testing
+- [x] Parsing using (yecc)[https://erlang.org/doc/man/yecc.html] and (leex)[https://erlang.org/doc/man/leex.html]
+- [x] "Type-checking" with (dialyxir)[https://github.com/jeremyjh/dialyxir]
 
-## Installation
+## Scope for future development
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `analytic_tableaux` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:analytic_tableaux, "~> 0.1.0"}
-  ]
-end
-```
-
-- Final version: August 26th, 2021
-- Last class: September 2nd, 2021
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/analytic_tableaux](https://hexdocs.pm/analytic_tableaux).
-
-
-
+- [ ] Multiple prover implementations
+  - [x] Block tablueax
+  - [ ] Tree tableaux
+  - [ ] Unsigned tableaux
+  - [ ] Use Elixir's concurrency features
+- [ ] Extend use of property-based testing
+  - [ ] Valuator module
+- [ ] Better module documentation
+- [ ] Generate hexdoc documentation
