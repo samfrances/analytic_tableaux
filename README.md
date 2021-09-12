@@ -6,7 +6,7 @@ We implement the "signed formulae" version of analytic tableaux.
 
 The code is structured to allow for multiple implementations of the prover.
 
-Currently, a single prover based on the ("block tableaux")[https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiigdOqkvnyAhWOfMAKHV8cBdQQFnoECAUQAQ&url=http%3A%2F%2Fwww.cs.cornell.edu%2Fcourses%2Fcs4860%2F2012fa%2Flec-09.pdf&usg=AOvVaw3H9bxXXFRyPMp0zTaBWugt] variant of the method has been implemented.
+Currently, a single prover based on the ["block tableaux"](https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiigdOqkvnyAhWOfMAKHV8cBdQQFnoECAUQAQ&url=http%3A%2F%2Fwww.cs.cornell.edu%2Fcourses%2Fcs4860%2F2012fa%2Flec-09.pdf&usg=AOvVaw3H9bxXXFRyPMp0zTaBWugt) variant of the method has been implemented.
 
 
 # Elixir features used
