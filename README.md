@@ -20,7 +20,8 @@ Currently, a single prover based on the ["block tableaux"](https://www.google.es
 ## Scope for future development
 
 - [ ] Add instructions for use to README
-- [ ] Create CLI
+- [x] Create CLI
+  - [ ] Better handling of invalid arguments
 - [ ] Multiple prover implementations
   - [x] Block tablueax
   - [ ] Tree tableaux
