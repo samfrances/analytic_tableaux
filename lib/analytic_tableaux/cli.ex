@@ -3,7 +3,7 @@ defmodule AnalyticTableaux.CLI do
     args
     |> parse_args()
     |> response()
-    |> IO.puts()
+    |> print_response()
   end
 
   defp parse_args(args) do
@@ -11,7 +11,18 @@ defmodule AnalyticTableaux.CLI do
     |> OptionParser.parse_head(strict: [sequent: :string])
   end
 
+  defp print_response({device, output}) do
+    IO.puts(device, output)
+  end
+  defp print_response(output) do
+    IO.puts(output)
+  end
+
+  defp response({[], _, _}) do
+    {:stderr, "Please provide a --sequent argument"}
+  end
   defp response({[sequent: sequent], _word, _}) do
+
     result = AnalyticTableaux.prove(sequent)
     status =
       result
